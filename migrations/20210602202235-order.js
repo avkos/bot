@@ -39,23 +39,23 @@ module.exports = {
         allowNull: true
       },
       price: {
-        type: Sequelize.REAL, // ???
+        type: Sequelize.REAL,
         allowNull: true
       },
       avg_price: {
-        type: Sequelize.REAL, // ???
+        type: Sequelize.REAL,
         allowNull: true
       },
       activate_price: {
-        type: Sequelize.REAL, // ???
+        type: Sequelize.REAL,
         allowNull: true
       },
       price_rate: {
-        type: Sequelize.REAL, // ???
+        type: Sequelize.REAL,
         allowNull: true
       },
       stop_price: {
-        type: Sequelize.REAL, // ???
+        type: Sequelize.REAL,
         allowNull: true
       },
       side: {
@@ -83,7 +83,7 @@ module.exports = {
         allowNull: true
       },
       update_time: {
-        type: Sequelize.STRING, // ??? DATE
+        type: Sequelize.STRING,
         allowNull: true
       },
       working_type: {
@@ -92,19 +92,6 @@ module.exports = {
       },
       trade: {
         type: Sequelize.JSONB,
-        allowNull: true
-      },
-      created_at: {
-        type: Sequelize.DATE,
-        allowNull: true,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-      },
-      updated_at: {
-        type: Sequelize.DATE,
-        allowNull: true
-      },
-      deleted_at: {
-        type: Sequelize.DATE,
         allowNull: true
       },
       commission: {

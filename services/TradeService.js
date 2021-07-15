@@ -1,28 +1,44 @@
 const NodeBinanceApi = require('node-binance-api')
-const EventEmitter = require('events').EventEmitter
 const LoggerService = require('./LoggerService')
+const { orderProvider } = require('../db')
+const AsyncQueue = require('../helpers/asynQueue')
 
-class TradeService {
-  constructor({client, secret}) {
-    const { log, error } = new LoggerService('WS')
+class CheckOrderService {
+  constructor({ binanceApiKey, binanceApiSecret }) {
+    const { log, error } = new LoggerService('CheckOrderService')
     this.log = log
     this.error = error
     this.api = new NodeBinanceApi().options({
-      APIKEY: client,
-      APISECRET: secret,
+      APIKEY: binanceApiKey,
+      APISECRET: binanceApiSecret,
       hedgeMode: true,
     })
-    this.events = new EventEmitter()
+    this.asyncQueue = new AsyncQueue()
+  }
+
+  checkOrder = async (data)=>{
+    if (data && data.order) {
+      try {
+        const { order } = data
+        if (order && order.orderId && order.orderStatus && order.executionType === 'TRADE') {
+          const o = await orderProvider.getOrder(order)
+          if (o && o.status !== order.orderStatus) {
+            o.status = order.orderStatus
+            await orderProvider.updateOrderCommission(o, order)
+          }
+        }
+      } catch (e) {
+        this.log('executionTRADE error', e)
+      }
+    }
+  }
+  orderUpdateCallback = (data) => {
+    this.asyncQueue.emitInQueue(this.checkOrder, data)
   }
 
   marginCallCallback = (data) => this.log('marginCallCallback', data)
-
-  accountUpdateCallback = (data) => this.emitPositions(data.updateData.positions)
-
-  orderUpdateCallback = (data) => this.emit(data)
-
+  accountUpdateCallback = (data) => this.log('accountUpdateCallback', data)
   subscribedCallback = (data) => this.log('subscribedCallback', data)
-
   accountConfigUpdateCallback = (data) => this.log('accountConfigUpdateCallback', data)
 
   startListening() {
@@ -34,14 +50,6 @@ class TradeService {
       this.accountConfigUpdateCallback,
     )
   }
-
-  subscribe(cb) {
-    this.events.on('trade', cb)
-  }
-
-  emit = (data) => {
-    this.events.emit('trade', data)
-  }
 }
 
-module.exports = TradeService
+module.exports = CheckOrderService

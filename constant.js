@@ -67,8 +67,19 @@ const SYMBOL = {
   ETHUSDT: 'ETHUSDT',
   BTCUSDT: 'BTCUSDT',
 }
+
+
+const STRATEGY = {
+  STATUS:{
+    WAIT_ENTRY_POINT:'WAIT_ENTRY_POINT',
+    IN_PROGRESS:'IN_PROGRESS',
+    COMPLETED:'COMPLETED'
+  }
+}
+
 module.exports = {
   ORDER,
   K_LINE,
   SYMBOL,
+  STRATEGY
 }

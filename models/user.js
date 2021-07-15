@@ -19,11 +19,11 @@ module.exports = function (sequelize) {
         type: DataTypes.STRING,
         allowNull: false
       },
-      binance_api_key: {
+      binanceApiKey: {
         type: DataTypes.STRING,
         allowNull: true
       },
-      binance_api_secret: {
+      binanceApiSecret: {
         type: DataTypes.STRING,
         allowNull: true
       },

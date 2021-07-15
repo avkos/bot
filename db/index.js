@@ -1,6 +1,7 @@
 const defineModels = require('../models');
 const defineProviders = require('../providers');
 const { Sequelize } = require('sequelize');
+const config = require('../config');
 
 async function initDB(config) {
   const sequelize = new Sequelize({
@@ -26,4 +27,4 @@ async function initDB(config) {
   });
 }
 
-module.exports = initDB;
+module.exports = initDB(config);

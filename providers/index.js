@@ -1,6 +1,7 @@
 const BaseProvider = require('./base')
-const UserProvider = require('./user')
-const OrderProvider = require('./order')
+const UserProvider = require('./UserProvider')
+const OrderProvider = require('./OrderProvider')
+const StrategyProvider = require('./StrategyProvider')
 
 /**
  * @param {Sequelize} sequelize
@@ -12,6 +13,7 @@ async function defineProviders(sequelize) {
     baseProvider: new BaseProvider(sequelize),
     userProvider: new UserProvider(sequelize),
     orderProvider: new OrderProvider(sequelize),
+    strategyProvider: new StrategyProvider(sequelize),
   }
 }
 
