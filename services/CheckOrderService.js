@@ -28,7 +28,7 @@ class CheckOrderService {
           }
         }
       } catch (e) {
-        this.log('executionTRADE error', e)
+        this.error('executionTRADE error', e)
       }
     }
   }
